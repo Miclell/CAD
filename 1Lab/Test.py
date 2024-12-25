@@ -108,12 +108,22 @@ print('-----Критерий независимости компонент------
 n = 100
 m = 100
 randomValues = np.random.rand(n, m)
+print(randomValues)
 freqMatrix = randomValues / randomValues.sum()
+randomValues1 = np.random.rand(n, m)
+for i in range(n):
+    randomValues1[i, :] *= np.sin(2 * np.pi * i / n)
+freqMatrix1 = randomValues1 / randomValues1.sum()
 
 if CritIndependenceComponents(freqMatrix, n=50, m=50):
-    print('Компоненты случайной величины независимы')
+    print('Компоненты случайной величины независимы (+)')
 else:
-    print('Компоненты случайной величины зависимы')
+    print('Компоненты случайной величины зависимы (-)')
+    
+if CritIndependenceComponents(freqMatrix1, n=50, m=50):
+    print('Компоненты случайной величины независимы (-)')
+else:
+    print('Компоненты случайной величины зависимы (+)')
 print('-------------------------------------------')
 
 #

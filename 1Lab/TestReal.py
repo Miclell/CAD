@@ -10,6 +10,7 @@ from Criteria.CritEqualityVar import CritEqualityVar
 from Criteria.CritEqualityMean import CritEqualityMean
 from Criteria.CritExcess import CritExcess
 from Criteria.CritSymmetry import CritSymmetry
+from Criteria.CritIndependenceComponents import CritIndependenceComponents
 
 def HistPlot(X):
     k = 1.72 * (len(X) ** (1 / 3))
@@ -37,7 +38,10 @@ if CritShapiroWilk(x):
 else:
     print('Распределение генеральной совокупности не нормальное')
 
-if CritEqualityProb(x, y):
+
+dfVR = pd.read_csv('Data/vaccine_russia.csv')
+dfVU = pd.read_csv('Data/vaccine_usa.csv')
+if CritEqualityProb(dfVR, dfVU):
     print('Вероятности успехов совпадают')
 else:
     print('Вероятности успехов не совпадают')
@@ -61,3 +65,12 @@ if CritExcess(x):
     print('Коэффициент эксцесса равен 0')
 else:
     print('Коэффициент эксцесса не равен 0')
+
+dfUR = pd.read_csv('Data/Urov_11subg-nm.csv')
+dfUR = dfUR.drop(dfUR.columns[0], axis=1)
+freqMatrix = dfUR / dfUR.sum()
+
+if CritIndependenceComponents(freqMatrix.to_numpy(), n=12, m=34):
+    print('Компоненты случайной величины независимы')
+else:
+    print('Компоненты случайной величины зависимы')
